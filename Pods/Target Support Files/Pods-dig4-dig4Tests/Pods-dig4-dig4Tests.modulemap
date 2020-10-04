@@ -1,0 +1,6 @@
+framework module Pods_dig4_dig4Tests {
+  umbrella header "Pods-dig4-dig4Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

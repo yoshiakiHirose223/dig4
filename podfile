@@ -1,0 +1,23 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'dig4' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+pod 'SwiftGifOrigin'
+pod 'Firebase/Analytics'
+pod 'Firebase/Database'
+pod 'Firebase/Auth'
+pod 'Firebase/Storage'
+pod 'FirebaseUI/Storage'
+  # Pods for dig4
+
+  target 'dig4Tests' do
+    # Pods for testing
+  end
+
+  target 'dig4UITests' do
+    # Pods for testing
+  end
+
+end
