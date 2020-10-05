@@ -108,11 +108,13 @@ class CreateTweetViewController: UIViewController{
      let myView: UIView! = self.view
         let viewHeight = myView.frame.height
         let tagViewWidth = myView.frame.width * 0.9
+        
+        let topMargin = self.view.safeAreaInsets.top
 
         searchBar.widthAnchor.constraint(equalTo: myView.widthAnchor, multiplier: 1.0).isActive = true
         searchBar.heightAnchor.constraint(equalTo: myView.heightAnchor, multiplier: 0.08).isActive = true
         searchBar.leadingAnchor.constraint(equalTo: myView.leadingAnchor).isActive = true
-        searchBar.topAnchor.constraint(equalTo: myView.topAnchor).isActive = true
+        searchBar.topAnchor.constraint(equalTo: myView.topAnchor, constant: topMargin).isActive = true
         
         backButton.widthAnchor.constraint(equalTo: myView.widthAnchor, multiplier: 0.07).isActive = true
         backButton.heightAnchor.constraint(equalTo: myView.widthAnchor, multiplier: 0.07).isActive = true

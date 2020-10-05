@@ -194,7 +194,7 @@ extension TweetViewController {
     @objc func buttonDidTapped (_ sender: UIButton) {
         let create = CreateTweetViewController()
         create.postDismissAction = {
-            self.firebaseModel.getNewTweet(path: self.path, child: self.child!, startAt: self.newestTimeStamp) { (tweets) in
+            self.firebaseModel.getNewTweet(path: self.path, child: self.child!, startAt: nil) { (tweets) in
                 guard let afterTweets = tweets else {
                     return
                 }

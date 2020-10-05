@@ -76,7 +76,7 @@ class RegistrationViewController: UIViewController {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         
         mailTextField.placeholder = "E-mail"
-        passwordTextField.placeholder = "password"
+        passwordTextField.placeholder = "password(6文字以上)"
         
         passwordTextField.isSecureTextEntry = true
         

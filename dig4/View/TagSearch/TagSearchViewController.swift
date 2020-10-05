@@ -33,9 +33,11 @@ class TagSearchViewController: UIViewController{
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+        let topMargin = self.view.safeAreaInsets.top
         tagSerchBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         tagSerchBar.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.1).isActive = true
-        tagSerchBar.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        tagSerchBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: topMargin).isActive = true
         tagSerchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         let tagSearchView = tagTweetViewController.view!
@@ -43,9 +45,7 @@ class TagSearchViewController: UIViewController{
         tagSearchView.topAnchor.constraint(equalTo: tagSerchBar.bottomAnchor).isActive = true
         tagSearchView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         tagSearchView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        
-        
+
         tagSuggestionView.widthAnchor.constraint(equalTo: tagSearchView.widthAnchor).isActive = true
         tagSuggestionView.topAnchor.constraint(equalTo: tagSearchView.topAnchor).isActive = true
         tagSuggestionView.bottomAnchor.constraint(equalTo: tagSearchView.bottomAnchor).isActive = true

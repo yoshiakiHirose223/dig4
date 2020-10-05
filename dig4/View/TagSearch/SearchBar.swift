@@ -85,12 +85,12 @@ class SearchBar: UIView {
         searchButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.10).isActive = true
         searchButton.heightAnchor.constraint(equalTo: searchButton.widthAnchor).isActive = true
         searchButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -layoutMargin).isActive = true
-        searchButton.centerYAnchor.constraint(equalTo: searchTextField.centerYAnchor).isActive = true
+        searchButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
         searchTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.60).isActive = true
         searchTextField.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.45).isActive = true
         searchTextField.trailingAnchor.constraint(equalTo: searchButton.leadingAnchor, constant: -layoutMargin).isActive = true
-        searchTextField.topAnchor.constraint(equalTo: self.topAnchor, constant: safeAreaInsets.top).isActive = true
+        searchTextField.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
     }
     
 }
