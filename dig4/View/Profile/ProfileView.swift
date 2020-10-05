@@ -26,8 +26,7 @@ class ProfileView: UIView {
         self.backgroundColor = .madPurple
         viewsInit()
     }
-
-    
+  
 
     override func layoutSubviews() {
         viewsLayout()
@@ -38,7 +37,10 @@ class ProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func didTouchFollowFollowerButton(_ sender: UIButton) {
+    @objc func didTouchFollowFollowerButton(_ sender: FollowCustomButton) {
+        guard sender.userNumber.text != "0" else {
+            return
+        }
         delegate?.goFollowFollowerPage(sender)
     }
     

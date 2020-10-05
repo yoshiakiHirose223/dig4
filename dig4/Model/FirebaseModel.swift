@@ -95,16 +95,15 @@ class FirebaseModel {
     func getNumberOfFollow (userId: String, completion: @escaping (String?) -> ()) {
         //フォローの数取得
         let ref = Database.database().reference()
-        ref.child("Users").child(userId).observeSingleEvent(of: .value) { (snapShot) in
+        
+        ref.child("Users").child(userId).observe(.value) { (snapShot) in
             let value = snapShot.value as? [String: Any] ?? nil
             guard let afterValue = value else {
-                completion(nil)
                 return
             }
-            //let profile = value as! [String: Any]
             let followCount = afterValue["FollowCount"] as! Int
+            print(followCount)
             completion(String(followCount))
-            
         }
     }
     

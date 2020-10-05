@@ -62,7 +62,6 @@
 		78D1975C2378F6E200E5000A /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1975B2378F6E200E5000A /* RegistrationViewController.swift */; };
 		78D1975E23795E3B00E5000A /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1975D23795E3B00E5000A /* UserSettingViewController.swift */; };
 		78D19763237D8B9D00E5000A /* ProfilePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D19762237D8B9D00E5000A /* ProfilePageViewController.swift */; };
-		78D19769237D8CC600E5000A /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D19768237D8CC600E5000A /* PageViewController.swift */; };
 		78D1976B237D8CFD00E5000A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1976A237D8CFD00E5000A /* ProfileView.swift */; };
 		78D19773237E6ADB00E5000A /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D19772237E6ADB00E5000A /* UsersViewController.swift */; };
 		B455320C7011AAC02DFB7F26 /* Pods_dig4_dig4UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9AC7B24DC6B8D8275894EAD /* Pods_dig4_dig4UITests.framework */; };
@@ -154,7 +153,6 @@
 		78D1975B2378F6E200E5000A /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		78D1975D23795E3B00E5000A /* UserSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		78D19762237D8B9D00E5000A /* ProfilePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePageViewController.swift; sourceTree = "<group>"; };
-		78D19768237D8CC600E5000A /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		78D1976A237D8CFD00E5000A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		78D19772237E6ADB00E5000A /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
 		7B804C38A176697961AD1563 /* Pods-dig4Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dig4Tests.release.xcconfig"; path = "Target Support Files/Pods-dig4Tests/Pods-dig4Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -240,20 +238,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7844CEC82518576A00CD0EB2 /* ViewControllerExtension */ = {
+		7844CEC82518576A00CD0EB2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				7844CEC9251857AD00CD0EB2 /* RegistrationViewControllerExtension.swift */,
 				7844CECB2518676800CD0EB2 /* UserSettingViewControllerExtension.swift */,
+				7844CED72518747B00CD0EB2 /* ProfilePageViewControllerExtension.swift */,
 				7844CECD251868CB00CD0EB2 /* TabBarViewControllerExtension.swift */,
 				7844CECF2518693A00CD0EB2 /* TweetViewControllerExtension.swift */,
 				7844CED125186BE200CD0EB2 /* TweetTableViewCellExtension.swift */,
 				7844CED325186DDE00CD0EB2 /* TagViewExtension.swift */,
 				7844CED52518731B00CD0EB2 /* TagSearchViewControlleExtension.swift */,
-				7844CED72518747B00CD0EB2 /* ProfilePageViewControllerExtension.swift */,
 				7844CED9251CF0F800CD0EB2 /* CreateTweetViewControllerExtension.swift */,
 			);
-			path = ViewControllerExtension;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		7844CEDB251CF35C00CD0EB2 /* View */ = {
@@ -297,7 +295,7 @@
 			children = (
 				7844CEDB251CF35C00CD0EB2 /* View */,
 				788AB260236DE1FA00BA6AD5 /* AppDelegate.swift */,
-				7844CEC82518576A00CD0EB2 /* ViewControllerExtension */,
+				7844CEC82518576A00CD0EB2 /* Controller */,
 				788E3BC0238922350035FEFF /* Model */,
 				788AB267236DE1FB00BA6AD5 /* Assets.xcassets */,
 				788AB26C236DE1FB00BA6AD5 /* Info.plist */,
@@ -396,7 +394,6 @@
 			children = (
 				78D19762237D8B9D00E5000A /* ProfilePageViewController.swift */,
 				78D1976A237D8CFD00E5000A /* ProfileView.swift */,
-				78D19768237D8CC600E5000A /* PageViewController.swift */,
 				781D912725063BE800AB4921 /* FollowCustomButton.swift */,
 				78D19771237E6A2000E5000A /* FollowFollower */,
 			);
@@ -693,7 +690,6 @@
 				788AB2A0236DE41000BA6AD5 /* CreateTweetViewController.swift in Sources */,
 				78D1975E23795E3B00E5000A /* UserSettingViewController.swift in Sources */,
 				78D19773237E6ADB00E5000A /* UsersViewController.swift in Sources */,
-				78D19769237D8CC600E5000A /* PageViewController.swift in Sources */,
 				7844CED62518731B00CD0EB2 /* TagSearchViewControlleExtension.swift in Sources */,
 				78D1976B237D8CFD00E5000A /* ProfileView.swift in Sources */,
 				788AB299236DE35900BA6AD5 /* TagView.swift in Sources */,

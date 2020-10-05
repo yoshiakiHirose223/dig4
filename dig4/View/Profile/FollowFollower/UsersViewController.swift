@@ -13,11 +13,16 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
     //Followを表示するか、Followerを表示するか受け取る
     var path: String!
     var userId: String!
-    
     var firebaseModel: FirebaseModel!
-
     var tableView: UITableView!
     var usersArray: [UserInfo] = []
+    
+    var cellImageSize: CGSize {
+        let screenWidth = UIScreen.main.bounds.width
+        let width = screenWidth * 0.12
+        let size = CGSize(width: width, height: width)
+        return size
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +47,10 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         self.navigationController?.pushViewController(profilePageVC, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellImageSize.height + 10
+    }
 
  
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,6 +62,8 @@ class UsersViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.backgroundColor = nil
         let item = usersArray[indexPath.row]
         cell.imageView?.image = item.userImage
+        cell.imageView?.contentMode = .scaleToFill
+        cell.imageView?.sizeThatFits(cellImageSize)
         cell.textLabel?.text = item.userName
         cell.textLabel?.textColor = .white
         

@@ -103,8 +103,7 @@ class ProfilePageViewController: UIViewController {
         containerView = UIView()
         containerView.backgroundColor = .blue
         
-        
-        pageViewController = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         pageViewController.dataSource = self
         pageViewController.setViewControllers([viewArray[0]], direction: .forward, animated: true, completion: nil)
         
