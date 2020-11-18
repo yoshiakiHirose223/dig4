@@ -14,6 +14,14 @@ class TagLayoutConstraints {
     var leadingAnchor: NSLayoutConstraint!
     var topAnchor: NSLayoutConstraint!
     
+    init(button: UIButton, parentView: UIView) {
+        widthAnchor = button.widthAnchor.constraint(equalToConstant: button.frame.width)
+        widthAnchor.isActive = true
+        heightAnchor = button.heightAnchor.constraint(equalToConstant: 0)
+        leadingAnchor = button.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: 0)
+        topAnchor = button.topAnchor.constraint(equalTo: parentView.topAnchor, constant: 0)
+    }
+    
     func makeSizeConstraint(tagButton: UIButton, width: CGFloat, height: CGFloat) {
         widthAnchor = tagButton.widthAnchor.constraint(equalToConstant: width)
         heightAnchor = tagButton.heightAnchor.constraint(equalToConstant: height)

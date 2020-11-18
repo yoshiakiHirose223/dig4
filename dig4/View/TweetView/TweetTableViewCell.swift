@@ -17,11 +17,14 @@ class TweetTableViewCell: UITableViewCell {
     var artistView: ArtistView!
     var tagView: TagView!
     var favoritesView: FooterView!
-    
     let subViewWidth: CGFloat = UIScreen.main.bounds.width * 0.90
+    
+    //消すかも
     var tagViewHeight: CGFloat = 0
     var tagViewHeightAnchor: NSLayoutConstraint!
     
+    var tagViewType: Int = 0
+    var tagButtonHeightLeading: (CGFloat, CGFloat)?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -41,13 +44,13 @@ class TweetTableViewCell: UITableViewCell {
         favoritesViewLatout()
         backViewLayout(topMargin: 10)
     }
-    
+    /*
     override func updateConstraints() {
         tagViewHeightAnchor.isActive = false
         tagViewHeightAnchor.constant = tagViewHeight
         tagViewHeightAnchor.isActive = true
         super.updateConstraints()
-    }
+    }*/
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -68,12 +71,12 @@ extension TweetTableViewCell {
         backView.translatesAutoresizingMaskIntoConstraints = false
         userView.translatesAutoresizingMaskIntoConstraints = false
         artistView.translatesAutoresizingMaskIntoConstraints = false
-        
         tagView.translatesAutoresizingMaskIntoConstraints = false
+        
         tagView.delegate = self
         tagView.frame.size = CGSize(width: subViewWidth * 0.75, height: 0)
-        tagViewHeightAnchor = tagView.heightAnchor.constraint(equalToConstant: tagViewHeight)
-        tagViewHeightAnchor.isActive = true
+        tagView.tagButtonHeightLeading = self.tagButtonHeightLeading
+
         favoritesView.translatesAutoresizingMaskIntoConstraints = false
         backView.backgroundColor = .init(red: 34/255, green: 30/255, blue: 57/255, alpha: 0.5)
         
@@ -89,13 +92,12 @@ extension TweetTableViewCell {
         let width = subViewWidth
         let userViewSize = CGSize(width: width, height: width * 0.10)
         let artistViewSize = CGSize(width: width, height: width * 0.15)
-        let tagViewSize = CGSize(width: width * 0.75, height: 0)
+        let tagViewSize = CGSize(width: width * 0.75, height: 0.15)
         let favoritesViewSize = CGSize(width: width, height: width * 0.05)
         userView.frame.size = userViewSize
         artistView.frame.size = artistViewSize
         tagView.frame.size  = tagViewSize
         favoritesView.frame.size = favoritesViewSize
-        
     }
     
     
@@ -117,6 +119,30 @@ extension TweetTableViewCell {
         tagView.widthAnchor.constraint(equalToConstant: subViewWidth * 0.75).isActive = true
         tagView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         tagView.topAnchor.constraint(equalTo: artistView.bottomAnchor).isActive = true
+        print(#function)
+        print("tagButtonHeightLeading\(tagButtonHeightLeading)")
+        guard let buttonHeight = tagButtonHeightLeading?.0 else {
+            return
+        }
+        print("TagView レイアウト　\(tagViewType)")
+        let buttonMargin = buttonHeight / 2
+        switch tagViewType {
+        case 0:
+            print("A")
+            tagView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+        case 1:
+            print("B")
+            tagView.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+        case 2:
+            print("C")
+            tagView.heightAnchor.constraint(equalToConstant: buttonHeight * 2 + buttonMargin).isActive = true
+        case 3:
+            print("D")
+            tagView.heightAnchor.constraint(equalToConstant: buttonHeight * 3 + buttonMargin * 2).isActive = true
+        default:
+            print("E")
+            return
+        }
     }
     
     

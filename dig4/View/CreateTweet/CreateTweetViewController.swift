@@ -29,6 +29,7 @@ class CreateTweetViewController: UIViewController{
     var tagArray: [String] = []
     //Homeに戻った時にさせる処理
     var postDismissAction: (() -> Void)?
+    var tagButtonHeightLeading: (CGFloat, CGFloat)?
 
     
     override func viewDidLoad() {
@@ -48,19 +49,18 @@ class CreateTweetViewController: UIViewController{
 
     
     func viewsInit () {
-        //インスタンス化
         searchBar = SearchBar()
         searchBar.delegate = self
         searchBar.searchTextField.delegate = self
         
         tagView = TagView()
         tagView.delegate = self
+        
         backButton = UIButton()
         addTagButton = UIButton(type: .custom)
         tweetButton = UIButton(type: .custom)
         
         artistImage = ArtistImageContainer()
-
         
         //AddSubView
         self.view.addSubview(searchBar)
@@ -79,11 +79,12 @@ class CreateTweetViewController: UIViewController{
         tweetButton.translatesAutoresizingMaskIntoConstraints = false
         
         artistImage.translatesAutoresizingMaskIntoConstraints = false
-
         
         //その他設定
         artistImage.contentMode = .scaleAspectFill
         artistImage.clipsToBounds = true
+        
+        tagView.tagButtonHeightLeading = self.tagButtonHeightLeading
        
         addTagButton.setImage(UIImage(named: "tag"), for: .normal)
         addTagButton.addTarget(self, action: #selector(didTapAddTagButton(_:)), for: .touchUpInside)
@@ -99,7 +100,6 @@ class CreateTweetViewController: UIViewController{
         tweetButton.layer.cornerRadius = 10
         tweetButton.isEnabled = false
         tweetButton.backgroundColor = .gray
-
     }
     
      
@@ -122,12 +122,12 @@ class CreateTweetViewController: UIViewController{
         backButton.centerYAnchor.constraint(equalTo: searchBar.centerYAnchor).isActive = true
         
         artistImage.widthAnchor.constraint(equalTo: myView.widthAnchor, multiplier: 0.7).isActive = true
-        artistImage.heightAnchor.constraint(equalTo: myView.heightAnchor, multiplier: 0.45).isActive = true
+        artistImage.heightAnchor.constraint(equalTo: myView.heightAnchor, multiplier: 0.3).isActive = true
         artistImage.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: viewHeight * 0.05).isActive = true
         artistImage.centerXAnchor.constraint(equalTo: myView.centerXAnchor).isActive = true
 
         tagView.widthAnchor.constraint(equalToConstant: tagViewWidth * 0.75).isActive = true
-        tagView.heightAnchor.constraint(equalTo: myView.heightAnchor, multiplier: 0.1).isActive = true
+        tagView.heightAnchor.constraint(equalTo: myView.heightAnchor, multiplier: 0.2).isActive = true
         tagView.topAnchor.constraint(equalTo: artistImage.bottomAnchor).isActive = true
         tagView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         

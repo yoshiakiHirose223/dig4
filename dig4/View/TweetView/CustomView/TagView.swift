@@ -16,6 +16,7 @@ class TagView: UIView {
     var tagLayoutConstraintsArray: [TagLayoutConstraints] = []
     var tagButtontag: Int = 1
     var canMakeNewTag: Bool = true
+    var tagButtonHeightLeading: (CGFloat, CGFloat)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,12 +27,11 @@ class TagView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func updateConstraints() {
-        super.updateConstraints()
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
+        let height: CGFloat = self.frame.height
+        let tagHeight: CGFloat = height * 0.2
+        
     }
 
 

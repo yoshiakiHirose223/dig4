@@ -31,14 +31,13 @@ extension CreateTweetViewController: AlertViewProtocol {
             }
             let center = self.view.center
             if tag.count < 16 {
-                self.tagView.settingTag(tag: tag, completion: { (canMakeNewTag) in
+                self.tagView.setTagforCreate(tag: tag, completion: { (canMakeNewTag) in
                     if canMakeNewTag == true {
                         self.tagArray.append(tag)
                     } else {
                         self.showAlert(text: "タグの数を減らしてください。", center: center)
                     }
                 })
-                
             } else {
                 self.showAlert(text: "15文字以内で入力してください", center: center)
             }
@@ -75,7 +74,7 @@ extension CreateTweetViewController: AlertViewProtocol {
         if let item = didSelectItem {
             artistImage.setArtistImage(imageUrlString: item.artistImageUrl, name: item.artistName, title: item.artistSong)
             tweetButton.isEnabled = true
-            tweetButton.backgroundColor = UIColor(displayP3Red: 236 / 255, green: 64 / 255, blue: 122 / 255, alpha: 1.0)
+            tweetButton.backgroundColor = .pink
         }
         
     }

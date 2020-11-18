@@ -67,10 +67,10 @@ class ArtistImageContainer: UIView {
     func viewLayout () {
         let myViewHeight = self.frame.height
 
-        artistImageView.heightAnchor.constraint(equalToConstant: myViewHeight * 0.60).isActive = true
-        artistImageView.widthAnchor.constraint(equalToConstant: myViewHeight * 0.60).isActive = true
+        artistImageView.heightAnchor.constraint(equalToConstant: myViewHeight * 0.80).isActive = true
+        artistImageView.widthAnchor.constraint(equalTo: artistImageView.heightAnchor, multiplier: 1.0).isActive = true
         artistImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        artistImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: myViewHeight * 0.10).isActive = true
+        artistImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         
         artistNameLabel.heightAnchor.constraint(equalToConstant: myViewHeight * 0.10).isActive = true
         artistNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0).isActive = true

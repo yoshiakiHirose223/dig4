@@ -48,25 +48,27 @@ extension TagView {
         
         button.setTitle(tag, for: .normal)
         button.sizeToFit()
-        let buttonWidth: CGFloat = button.frame.width
-        let buttonHeight: CGFloat = self.frame.width * 0.05
         button.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.smallSystemFontSize)
         button.layer.cornerRadius = 5
-        
         self.addSubview(button)
         
-        let taglayoutConstraint = TagLayoutConstraints()
-        taglayoutConstraint.makeSizeConstraint(tagButton: button, width: buttonWidth, height: buttonHeight)
-        taglayoutConstraint.makeLeadingConstraint(tagButton: button, xAxisAnchor: self.leadingAnchor, constant: 0)
-        taglayoutConstraint.makeTopConstraint(tagButton: button, yAxisAnchor: self.topAnchor, constant: 0)
-        taglayoutConstraint.allConstraintsActivate()
+        let taglayoutConstraint = TagLayoutConstraints(button: button, parentView: self)
         
         self.tagLayoutConstraintsArray.append(taglayoutConstraint)
         self.tagButtontag += 1
         self.tagButtonArray.append(button)
     }
-    //配列内のボタンをまとめてレイアウト
-    func allButtonsLayout() {
+    
+    //ボタンのConstraintの設定
+    func setHeightConstraint(buttonHeight: CGFloat) {
+        //tagLayoutConstraintsArrayの最後の要素のHeightを設定する
+        guard let lastConstraint = tagLayoutConstraintsArray.last else {
+            return
+        }
+        lastConstraint.updateHeightConstraint(height: buttonHeight)
+    }
+    
+    func setAllButton(rightMargin: CGFloat, topMargin: CGFloat) {
         var previousWidth: CGFloat = 0
         var previousHeight: CGFloat = 0
         var times: Int = 0
@@ -79,44 +81,59 @@ extension TagView {
             if previousWidth + buttonWidth < self.frame.width {
                 //改行されない時の処理
                 tagLayoutConstraints.updateLeadingAndTopAnchorConstant(leadingConstant: previousWidth, topConstant: previousHeight)
-                previousWidth += buttonWidth + 10
+                previousWidth += buttonWidth + rightMargin
                 times += 1
                 
             } else {
                 //改行された時の処理
                 previousWidth = 0
-                previousHeight += buttonHeight + 5
+                previousHeight += buttonHeight + topMargin
                 tagLayoutConstraints.updateLeadingAndTopAnchorConstant(leadingConstant: previousWidth, topConstant: previousHeight)
                 times += 1
-                previousWidth += buttonWidth + 10
+                previousWidth += buttonWidth + rightMargin
             }
+            
         }
     }
+
 
 }
 
 extension TagView {
     //Cell表示の際に使う
-    func createTag(tagArray: [String]) {
+    func createTag(tagArray: [String], tagLayout: (CGFloat, CGFloat)) {
+        print(#function)
         viewReset()
         guard tagArray.isEmpty == false else {
-            self.delegate?.updateTagViewHeight(height: 0)
             return
         }
+        let topMargin = tagLayout.0 / 3
+        let leadingMargin = tagLayout.1
+
         tagArray.forEach { (tag) in
             self.makeATagButton(tag: tag)
+            self.setHeightConstraint(buttonHeight: tagLayout.0)
         }
-        allButtonsLayout()
-        let lastLayoutConstraint: CGFloat = tagLayoutConstraintsArray[tagLayoutConstraintsArray.count - 1].topAnchor.constant
-        
-        let tagViewHeight: CGFloat = lastLayoutConstraint + self.frame.width * 0.05
-        delegate?.updateTagViewHeight(height: tagViewHeight)
+        setAllButton(rightMargin: leadingMargin, topMargin: topMargin)
     }
 }
 
 extension TagView {
     //CreateTweetViewの時に使う
     //ボタンを作成し、レイアウト後にまだボタンをつくれるかBoolで返す
+    func setTagforCreate(tag: String, completion: @escaping (Bool) -> ()) {
+        //CreteVCではTag Buttonの高さをTagViewの高さを基準に求める
+        let tagHeightforCreate: CGFloat = self.frame.height / 4.0
+        makeATagButton(tag: tag)
+        setHeightConstraint(buttonHeight: tagHeightforCreate)
+        tagButtonLayout(from: self.tagButtonArray.count)
+        let button = tagButtonArray[tagButtonArray.count - 1]
+        let fontSize = UIFont.systemFont(ofSize: 18)
+        button.titleLabel?.font = fontSize
+        let canMakeNewTag: Bool = checkCanMakeNewTag()
+        completion(canMakeNewTag)
+    }
+    
     func settingTag(tag: String, completion: @escaping (Bool) -> ()) {
         makeATagButton(tag: tag)
         tagButtonLayout(from: self.tagButtonArray.count)
@@ -125,32 +142,36 @@ extension TagView {
     }
     
     //削除されたボタンより後ろに配置されているボタンをレイアウトしなおす
+    //tagNumber番目のボタンからレイアウトを開始する。
     func tagButtonLayout(from tagNumber: Int) {
         var previousWidth: CGFloat = 0
         var previousHeight: CGFloat = 0
         
-        if tagNumber > tagButtonArray.count {
+        //tagNumber番目が最後のボタンだったら削除するだけで良いので何もしない
+        //削除した結果ボタンが残らない場合も何もしない
+        if tagNumber - 1 == tagButtonArray.count {
             return
         }
-        
+        //最初のボタン以外が削除された場合は前に残っているボタンのレイアウトを考慮する。
+        //削除されたボタンが先頭のボタンだったら、previousWidth&Heightは0のままで良い。
         if tagNumber != 1 {
-            let previousTag = tagButtonArray[tagNumber - 2]
-            previousWidth += previousTag.frame.maxX + 10
-            previousHeight += previousTag.frame.minY
+            let previousTagConstraint = tagLayoutConstraintsArray[tagNumber - 2]
+            previousWidth += previousTagConstraint.leadingAnchor.constant + previousTagConstraint.widthAnchor.constant + tagButtonHeightLeading!.1
+            previousHeight += previousTagConstraint.topAnchor.constant
         }
         
         for times in tagNumber...tagButtonArray.count {
-            let tag = tagButtonArray[times - 1]
             let tagLayoutConstraint = tagLayoutConstraintsArray[times - 1]
-            
-            if previousWidth + tag.frame.width < self.frame.width {
+            if previousWidth + tagLayoutConstraint.widthAnchor.constant < self.frame.width {
+                //改行が必要ない場合
                 tagLayoutConstraint.updateLeadingAndTopAnchorConstant(leadingConstant: previousWidth, topConstant: previousHeight)
-                previousWidth += tag.frame.width + 10
+                previousWidth += tagLayoutConstraint.widthAnchor.constant + tagButtonHeightLeading!.1
             } else {
+                //改行された場合
                 previousWidth  = 0
-                previousHeight += tagLayoutConstraint.heightAnchor.constant + 5
+                previousHeight += tagLayoutConstraint.heightAnchor.constant + tagLayoutConstraint.heightAnchor.constant / 2
                 tagLayoutConstraint.updateLeadingAndTopAnchorConstant(leadingConstant: previousWidth, topConstant: previousHeight)
-                previousWidth += tag.frame.width + 10
+                previousWidth += tagLayoutConstraint.widthAnchor.constant + tagButtonHeightLeading!.1
             }
         }
     }
@@ -158,12 +179,11 @@ extension TagView {
     //TagButtonが何行作られたか返す
     func tagViewType() -> Int {
         if tagButtonArray.count == 0 {
-            print("Tagなし")
             return 0
         }
         
         let tagButtonHeight: CGFloat = tagLayoutConstraintsArray[0].heightAnchor.constant
-        let tagMargin: CGFloat = 5
+        let tagMargin: CGFloat = tagButtonHeight / 2.0
         
         let secondStep: CGFloat = tagButtonHeight + tagMargin
         
@@ -184,8 +204,12 @@ extension TagView {
     func checkCanMakeNewTag() -> Bool {
         let lastTag = tagButtonArray[tagButtonArray.count - 1]
         let lastConstraint = tagLayoutConstraintsArray[tagLayoutConstraintsArray.count - 1]
-        let lastHeight:CGFloat = lastConstraint.topAnchor.constant
-        let limits: CGFloat = lastConstraint.heightAnchor.constant * 3 + 10
+        
+        let lastHeight: CGFloat = lastConstraint.topAnchor.constant
+        
+        let buttonHeight: CGFloat = lastConstraint.heightAnchor.constant
+        let topMargin: CGFloat = buttonHeight / 2
+        let limits: CGFloat = buttonHeight * 3 + topMargin * 2
         
         if lastHeight > limits {
             //最後に作られたTagは消さないといけない
@@ -230,14 +254,17 @@ extension TagView {
             button.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
             button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         }
-        tagButtonArray[0].titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
+        
         let tagHeight: CGFloat = self.frame.height / 15.0
         let space: CGFloat = self.frame.height - (tagHeight * CGFloat(tagArray.count))
         let topSpace = space / CGFloat(tagArray.count)
-        var previousHeight: CGFloat = topSpace
-        tagLayoutConstraintsArray.forEach { (constraint) in
+        let tagWidth: CGFloat = self.frame.width / 2.0
+        var previousHeight: CGFloat = 0
+        print("suggestion = \(tagArray.count)")
+
+       tagLayoutConstraintsArray.forEach { (constraint) in
             constraint.updateHeightConstraint(height: tagHeight)
-            constraint.updateWidthConstraint(width: self.frame.width * 0.5)
+            constraint.updateWidthConstraint(width: tagWidth)
             constraint.leadingAndTopConstraintDeactivate()
             constraint.updateTopConstraint(topConstraint: previousHeight)
             previousHeight += tagHeight + topSpace
@@ -250,20 +277,14 @@ extension TagView {
         headerButton.backgroundColor = .pink
         headerButton.translatesAutoresizingMaskIntoConstraints = false
         headerButton.sizeToFit()
-        let buttonWidth: CGFloat = headerButton.frame.width
-        let buttonHeight: CGFloat = self.frame.width * 0.05
         headerButton.layer.cornerRadius = 5
         self.addSubview(headerButton)
-        
-        let taglayoutConstraint = TagLayoutConstraints()
-        taglayoutConstraint.makeSizeConstraint(tagButton: headerButton, width: buttonWidth, height: buttonHeight)
-        taglayoutConstraint.makeLeadingConstraint(tagButton: headerButton, xAxisAnchor: self.leadingAnchor, constant: 0)
-        taglayoutConstraint.makeTopConstraint(tagButton: headerButton, yAxisAnchor: self.topAnchor, constant: 0)
-        taglayoutConstraint.allConstraintsActivate()
-        
+        let taglayoutConstraint = TagLayoutConstraints(button: headerButton, parentView: self)
+         
         self.tagLayoutConstraintsArray.insert(taglayoutConstraint, at: 0)
         self.tagButtontag += 1
         self.tagButtonArray.insert(headerButton, at: 0)
         
     }
 }
+

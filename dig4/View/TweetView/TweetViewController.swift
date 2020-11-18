@@ -18,18 +18,19 @@ class TweetViewController: UIViewController, UITextFieldDelegate {
     var tableView: UITableView!
     var refreshControl: UIRefreshControl!
     var tweetButton: UIButton!
+    var activityIndicator = UIActivityIndicatorView(style: .gray)
+    let tagButtonHeightLeading: (CGFloat, CGFloat) = (30, 10)
+    let cellViewRatio: (CGFloat, CGFloat, CGFloat) = (userView: 0.10, artistView: 0.15, favoritesView: 0.05)
+    
+    var path: String!
+    var child: String?
     var tweetArray: [CellInfo] = []
     var newestTimeStamp: Int?
     var oldestTimeStamp: Int?
-    
     var flag: Bool = true
-    
     var player: AVPlayer?
     var currentUrl: URL?
-
-    var path: String!
-    var child: String?
-    var activityIndicator = UIActivityIndicatorView(style: .gray)
+    
     
     init(kindOfTweet: String, child: String?) {
         self.path = kindOfTweet

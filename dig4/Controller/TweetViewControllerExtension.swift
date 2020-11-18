@@ -28,6 +28,11 @@ extension TweetViewController: UITableViewDelegate, UITableViewDataSource {
         cell.favoritesView.delegate = self
         
         let item = tweetArray[indexPath.row]
+        cell.tagButtonHeightLeading = tagButtonHeightLeading
+        cell.tagViewType = item.tagType
+        print(#function)
+        print("tagButtonHeightLeading\(tagButtonHeightLeading)")
+        print("cell.tagButtonHeightLeading\(cell.tagButtonHeightLeading)")
         cell.setCell(tweet: item, indexPath: indexPath)
         
         return cell
@@ -37,12 +42,12 @@ extension TweetViewController: UITableViewDelegate, UITableViewDataSource {
         let cellSubviewWidth: CGFloat = UIScreen.main.bounds.width * 0.90
         let userViewHeight: CGFloat = cellSubviewWidth * 0.10
         let artistViewHeight: CGFloat = cellSubviewWidth * 0.15
-        let tagButtonHeight: CGFloat = cellSubviewWidth * 0.75 * 0.05
         let favoritesViewHeight: CGFloat = cellSubviewWidth * 0.05
         let bottomMargin: CGFloat = 10
         let baseViewHeight: CGFloat = userViewHeight + artistViewHeight + favoritesViewHeight + bottomMargin
         let tagtype: Int = tweetArray[indexPath.row].tagType
-        
+        let tagButtonHeight = tagButtonHeightLeading.0
+        let tagButtonMargin = tagButtonHeight / 2
         
         switch tagtype {
         case 0:
@@ -50,9 +55,9 @@ extension TweetViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return baseViewHeight + tagButtonHeight
         case 2:
-            return baseViewHeight + tagButtonHeight * 2 + 5
+            return baseViewHeight + tagButtonHeight * 2 + tagButtonMargin
         case 3:
-            return baseViewHeight + tagButtonHeight * 3 + 10
+            return baseViewHeight + tagButtonHeight * 3 + tagButtonMargin * 2
         default:
             return 0
         }
@@ -193,6 +198,7 @@ extension TweetViewController: HeaderViewDelegate, ArtistViewDelegate, TagViewDa
 extension TweetViewController {
     @objc func buttonDidTapped (_ sender: UIButton) {
         let create = CreateTweetViewController()
+        create.tagButtonHeightLeading = self.tagButtonHeightLeading
         create.postDismissAction = {
             self.firebaseModel.getNewTweet(path: self.path, child: self.child!, startAt: nil) { (tweets) in
                 guard let afterTweets = tweets else {

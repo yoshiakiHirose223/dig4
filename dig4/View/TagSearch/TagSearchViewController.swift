@@ -40,15 +40,20 @@ class TagSearchViewController: UIViewController{
         tagSerchBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: topMargin).isActive = true
         tagSerchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
+        guard let tabbar = self.tabBarController?.tabBar else {
+            print("tabbar = nil")
+            return
+        }
+        
         let tagSearchView = tagTweetViewController.view!
         tagSearchView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         tagSearchView.topAnchor.constraint(equalTo: tagSerchBar.bottomAnchor).isActive = true
-        tagSearchView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        tagSearchView.bottomAnchor.constraint(equalTo: tabbar.topAnchor).isActive = true
         tagSearchView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
-        tagSuggestionView.widthAnchor.constraint(equalTo: tagSearchView.widthAnchor).isActive = true
-        tagSuggestionView.topAnchor.constraint(equalTo: tagSearchView.topAnchor).isActive = true
-        tagSuggestionView.bottomAnchor.constraint(equalTo: tagSearchView.bottomAnchor).isActive = true
+        tagSuggestionView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        tagSuggestionView.topAnchor.constraint(equalTo: tagSerchBar.bottomAnchor).isActive = true
+        tagSuggestionView.bottomAnchor.constraint(equalTo: tabbar.topAnchor).isActive = true
         tagSuggestionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         reloadTagButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.08).isActive = true
@@ -75,11 +80,6 @@ class TagSearchViewController: UIViewController{
         reloadTagButton.setImage(UIImage(named: "reload"), for: .normal)
         reloadTagButton.addTarget(self, action: #selector(didTouchReloadTagButton(_:)), for: .touchUpInside)
         reloadTagButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        let barFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height * 0.1)
-        let tweetVCFrame = CGRect(x: 0, y: barFrame.height, width: self.view.frame.width, height: self.view.frame.height - barFrame.height)
-        tagSuggestionView.frame = tweetVCFrame
-        
         
         self.view.addSubview(tagSerchBar)
         self.view.addSubview(tagTweetViewController.view)

@@ -30,9 +30,13 @@ extension TweetTableViewCell {
     func setCell(tweet: CellInfo, indexPath: IndexPath) {
         userView.createHeaderView(userName: tweet.userName, userId: tweet.userId, userImageUrlString: tweet.userImageUrlString)
         artistView.createArtistView(artistImageUrlString: tweet.artistImageUrlString, artistName: tweet.artistName, artistSong: tweet.artistSong, previewUrlString: tweet.previewUrlString)
-        //tagView.makeTag(tagArray: tweet.tagArray)
-        tagView.createTag(tagArray: tweet.tagArray)
         favoritesView.createFooterView(goodNumer: tweet.numberOfFavorites, tweetPath: tweet.tweetPath, indexPath: indexPath, canAddFavorites: tweet.canAddFavorites)
+        guard let tagLayout =  tagButtonHeightLeading else {
+            return
+        }
+        print(#function)
+        print("tagLayout\(tagLayout)")
+        tagView.createTag(tagArray: tweet.tagArray, tagLayout: tagLayout)
     }
     
 }
