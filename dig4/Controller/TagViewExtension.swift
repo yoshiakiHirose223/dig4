@@ -102,7 +102,6 @@ extension TagView {
 extension TagView {
     //Cell表示の際に使う
     func createTag(tagArray: [String], tagLayout: (CGFloat, CGFloat)) {
-        print(#function)
         viewReset()
         guard tagArray.isEmpty == false else {
             return
@@ -260,7 +259,6 @@ extension TagView {
         let topSpace = space / CGFloat(tagArray.count)
         let tagWidth: CGFloat = self.frame.width / 2.0
         var previousHeight: CGFloat = 0
-        print("suggestion = \(tagArray.count)")
 
        tagLayoutConstraintsArray.forEach { (constraint) in
             constraint.updateHeightConstraint(height: tagHeight)

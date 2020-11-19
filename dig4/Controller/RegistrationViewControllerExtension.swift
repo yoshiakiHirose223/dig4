@@ -30,7 +30,7 @@ extension RegistrationViewController: UITextFieldDelegate, AlertViewProtocol {
             return
         }
         
-        Auth.auth().createUser(withEmail: mailAdress + "@gmail.com", password: password) { (dataresult, error) in
+        Auth.auth().createUser(withEmail: mailAdress, password: password) { (dataresult, error) in
             if error != nil {
                 let center = self.view.center
                 self.showAlert(text: "登録に失敗しました。", center: center)

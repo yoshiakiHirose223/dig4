@@ -102,7 +102,6 @@ class FirebaseModel {
                 return
             }
             let followCount = afterValue["FollowCount"] as! Int
-            print(followCount)
             completion(String(followCount))
         }
     }
@@ -272,7 +271,6 @@ class FirebaseModel {
             let updateValue = ["/\(tweetPath)/": favNumber]
             print("Hell")
             self.ref.child("FavoritesNumber").updateChildValues(updateValue)
-            print("o")
             self.dispatchGroup.leave()
         }
         ref.child("CanAddFavorites").child(tweetPath).setValue(false)
@@ -398,7 +396,6 @@ class FirebaseModel {
                 return
             }
             let follower = value!.keys.map({ (uid) -> String in
-                print("map")
                 return uid
             })
 
@@ -452,7 +449,7 @@ class FirebaseModel {
     func getNewTweet(path: String, child: String, startAt newTimeStamp: Int?,completion: @escaping ([CellInfo]?) -> ()) {
         //上に引っ張って更新
         //20取ってくる
-        ref.child(path).child(child).queryOrdered(byChild: "TimeStamp").queryStarting(atValue: newTimeStamp).queryLimited(toFirst: 20).observeSingleEvent(of: .value) { (snapShot) in
+        ref.child(path).child(child).queryOrdered(byChild: "TimeStamp").queryStarting(atValue: newTimeStamp).queryLimited(toFirst: 5).observeSingleEvent(of: .value) { (snapShot) in
             let value = snapShot.value as? [String: Any] ?? nil
             guard let valueResult = value else {
                 completion(nil)
@@ -491,20 +488,7 @@ class FirebaseModel {
         }
     }
     
-    func getNewTweet(path: String, child: String,completion: @escaping ([CellInfo]?) -> ()) {
-        //上に引っ張って更新
-        //20取ってくる
-        ref.child(path).child(child).queryOrdered(byChild: "TimeStamp").queryLimited(toLast: 3).observeSingleEvent(of: .value) { (snapShot) in
-            let value = snapShot.value as? [String: Any] ?? nil
-            guard let valueResult = value else {
-                completion(nil)
-                return
-            }
-            self.changeValueToTweets(afterValue: valueResult, completion: { (tweets) in
-                completion(tweets)
-            })
-        }
-    }
+
     
     func getTagSuggestion(completion: @escaping ([String]) -> ()) {
         ref.child("Tag").queryLimited(toFirst: 9).observeSingleEvent(of: .value) { (snapShot) in

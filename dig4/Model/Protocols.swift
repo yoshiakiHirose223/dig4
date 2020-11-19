@@ -10,7 +10,6 @@ import UIKit
 
 protocol TagViewDelegate: AnyObject {
     func didLongPressTagButton(_ sender: UIButton)
-    func updateTagViewHeight(height: CGFloat)
 }
 
 protocol TagViewDataSource: AnyObject {

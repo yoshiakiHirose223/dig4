@@ -53,7 +53,6 @@ class SearchBar: UIView {
         } else {
             searchButton.setImage(UIImage(named: "searchOff"), for: .normal)
             searchButton.isEnabled = false
-            print("Blank")
             delegate?.textFieldisBlank()
         }
     }

@@ -34,21 +34,13 @@ extension TweetTableViewCell {
         guard let tagLayout =  tagButtonHeightLeading else {
             return
         }
-        print(#function)
-        print("tagLayout\(tagLayout)")
         tagView.createTag(tagArray: tweet.tagArray, tagLayout: tagLayout)
     }
     
 }
 
 extension TweetTableViewCell: TagViewDelegate {
-    
-    func updateTagViewHeight(height: CGFloat) {
-        self.setNeedsUpdateConstraints()
-        tagViewHeight = height
-        self.updateConstraintsIfNeeded()
-    }
-    
+ 
     func didTouchTagButton(_ sender: UIButton) {
     }
     func didLongPressTagButton(_ sender: UIButton) {

@@ -30,9 +30,6 @@ extension TweetViewController: UITableViewDelegate, UITableViewDataSource {
         let item = tweetArray[indexPath.row]
         cell.tagButtonHeightLeading = tagButtonHeightLeading
         cell.tagViewType = item.tagType
-        print(#function)
-        print("tagButtonHeightLeading\(tagButtonHeightLeading)")
-        print("cell.tagButtonHeightLeading\(cell.tagButtonHeightLeading)")
         cell.setCell(tweet: item, indexPath: indexPath)
         
         return cell
@@ -200,7 +197,7 @@ extension TweetViewController {
         let create = CreateTweetViewController()
         create.tagButtonHeightLeading = self.tagButtonHeightLeading
         create.postDismissAction = {
-            self.firebaseModel.getNewTweet(path: self.path, child: self.child!, startAt: nil) { (tweets) in
+            self.firebaseModel.getNewTweet(path: self.path, child: self.child!, startAt: self.newestTimeStamp) { (tweets) in
                 guard let afterTweets = tweets else {
                     return
                 }

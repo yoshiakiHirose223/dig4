@@ -20,7 +20,6 @@ class TweetTableViewCell: UITableViewCell {
     let subViewWidth: CGFloat = UIScreen.main.bounds.width * 0.90
     
     //消すかも
-    var tagViewHeight: CGFloat = 0
     var tagViewHeightAnchor: NSLayoutConstraint!
     
     var tagViewType: Int = 0
@@ -30,6 +29,7 @@ class TweetTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = nil
         viewInit()
+        tagViewHeightAnchor = tagView.heightAnchor.constraint(equalToConstant: 0)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,13 +44,7 @@ class TweetTableViewCell: UITableViewCell {
         favoritesViewLatout()
         backViewLayout(topMargin: 10)
     }
-    /*
-    override func updateConstraints() {
-        tagViewHeightAnchor.isActive = false
-        tagViewHeightAnchor.constant = tagViewHeight
-        tagViewHeightAnchor.isActive = true
-        super.updateConstraints()
-    }*/
+
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -119,28 +113,28 @@ extension TweetTableViewCell {
         tagView.widthAnchor.constraint(equalToConstant: subViewWidth * 0.75).isActive = true
         tagView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         tagView.topAnchor.constraint(equalTo: artistView.bottomAnchor).isActive = true
-        print(#function)
-        print("tagButtonHeightLeading\(tagButtonHeightLeading)")
         guard let buttonHeight = tagButtonHeightLeading?.0 else {
             return
         }
-        print("TagView レイアウト　\(tagViewType)")
         let buttonMargin = buttonHeight / 2
         switch tagViewType {
         case 0:
-            print("A")
-            tagView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+            tagViewHeightAnchor.isActive = false
+            tagViewHeightAnchor.constant = 0
+            tagViewHeightAnchor.isActive = true
         case 1:
-            print("B")
-            tagView.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
+            tagViewHeightAnchor.isActive = false
+            tagViewHeightAnchor.constant = buttonHeight
+            tagViewHeightAnchor.isActive = true
         case 2:
-            print("C")
-            tagView.heightAnchor.constraint(equalToConstant: buttonHeight * 2 + buttonMargin).isActive = true
+            tagViewHeightAnchor.isActive = false
+            tagViewHeightAnchor.constant = buttonHeight * 2 + buttonMargin
+            tagViewHeightAnchor.isActive = true
         case 3:
-            print("D")
-            tagView.heightAnchor.constraint(equalToConstant: buttonHeight * 3 + buttonMargin * 2).isActive = true
+            tagViewHeightAnchor.isActive = false
+            tagViewHeightAnchor.constant = buttonHeight * 3 + buttonMargin * 2
+            tagViewHeightAnchor.isActive = true
         default:
-            print("E")
             return
         }
     }

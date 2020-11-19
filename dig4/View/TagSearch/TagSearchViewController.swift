@@ -21,6 +21,7 @@ class TagSearchViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.view.backgroundColor = .lightPurple
         viewInit()
         setTagSuggestion()
 
@@ -34,14 +35,12 @@ class TagSearchViewController: UIViewController{
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        let topMargin = self.view.safeAreaInsets.top
         tagSerchBar.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
         tagSerchBar.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.1).isActive = true
-        tagSerchBar.topAnchor.constraint(equalTo: self.view.topAnchor, constant: topMargin).isActive = true
+        tagSerchBar.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         tagSerchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
         guard let tabbar = self.tabBarController?.tabBar else {
-            print("tabbar = nil")
             return
         }
         
